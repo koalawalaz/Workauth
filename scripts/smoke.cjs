@@ -104,6 +104,18 @@ fs.mkdirSync(SHOTS, { recursive: true });
   await page.getByText(tracking).waitFor();
   step('dispute filed ' + tracking);
 
+  // AI contract analyzer (demo results)
+  await page.getByRole('link', { name: 'Check my contract' }).click();
+  await page.getByRole('button', { name: /Check this contract/ }).click();
+  await page.getByText('Checking your contract…').waitFor();
+  await page.getByText('Your contract report').waitFor({ timeout: 10000 });
+  await page.getByText('Critical risk').waitFor();
+  await shot('06b-analyzer'); step('contract analyzer report');
+  await page.getByRole('button', { name: /Dead Sea Hospitality/ }).click();
+  await page.getByRole('button', { name: /Check this contract/ }).click();
+  await page.getByText('No clauses conflict with the law.').waitFor({ timeout: 10000 }).catch(async () => { await page.getByRole('tab', { name: /Problems/ }).click(); await page.getByText('No clauses conflict with the law.').waitFor(); });
+  step('compliant sample shows no violations');
+
   // Employer sees it anonymised
   await as({ role: 'employer', employerId: 'emp-1' }, '/employer/disputes');
   await page.getByText(tracking).waitFor();
@@ -171,6 +183,12 @@ fs.mkdirSync(SHOTS, { recursive: true });
   const overflow2 = await p2.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   if (overflow2) errors.push('horizontal overflow on phone landing');
   await p2.screenshot({ path: `${SHOTS}/12-landing-phone-ar.png`, fullPage: true });
+  await p2.goto(BASE + '?r=phone2#/employee/contract');
+  await p2.getByRole('button', { name: /افحص هذا العقد/ }).click();
+  await p2.getByText('تقرير عقدك').waitFor({ timeout: 10000 });
+  await p2.waitForTimeout(500);
+  if (await p2.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)) errors.push('horizontal overflow on phone analyzer');
+  await p2.screenshot({ path: `${SHOTS}/13-analyzer-phone-ar.png`, fullPage: true });
   step('phone width');
 
   await browser.close();
