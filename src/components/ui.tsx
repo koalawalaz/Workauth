@@ -87,7 +87,7 @@ export function ScoreGauge({ score, tier }: { score: number; tier: Tier }) {
   );
 }
 
-export function Bar({ value, max, color = '#13795b' }: { value: number; max: number; color?: string }) {
+export function Bar({ value, max, color = '#005afd' }: { value: number; max: number; color?: string }) {
   const pct = max > 0 ? (value / max) * 100 : 0;
   return (
     <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">

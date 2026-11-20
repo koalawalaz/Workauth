@@ -6,14 +6,8 @@ import { Button } from './ui';
 
 export function Logo({ light = false }: { light?: boolean }) {
   return (
-    <Link to="/" className="flex items-center gap-2 font-bold tracking-tight" dir="ltr">
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500 text-white">
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" />
-          <path d="M9 12l2 2 4-4" />
-        </svg>
-      </span>
-      <span className={light ? 'text-white' : 'text-slate-900'}>Work Auth</span>
+    <Link to="/" className="flex shrink-0 items-center" dir="ltr" aria-label="Work Auth">
+      <img src={light ? './logo-white.png' : './logo-sm.png'} alt="Work Auth" className="h-6 w-auto sm:h-7" width={333} height={80} />
     </Link>
   );
 }

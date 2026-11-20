@@ -74,7 +74,7 @@ export function TrendCard({ employerId }: { employerId: string }) {
               <ReferenceLine y={70} stroke="#dc2626" strokeDasharray="4 4" />
               <ReferenceLine y={85} stroke="#10b981" strokeDasharray="4 4" />
               <Tooltip />
-              <Line type="monotone" dataKey="score" stroke="#13795b" strokeWidth={2.5} dot={{ r: 3 }} />
+              <Line type="monotone" dataKey="score" stroke="#005afd" strokeWidth={2.5} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>

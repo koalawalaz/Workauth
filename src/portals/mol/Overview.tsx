@@ -107,7 +107,7 @@ export default function Overview() {
                 <XAxis dataKey="month" tick={{ fontSize: 11 }} reversed={isAr} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} orientation={isAr ? 'right' : 'left'} />
                 <Tooltip />
-                <Line type="monotone" dataKey="score" stroke="#13795b" strokeWidth={2.5} />
+                <Line type="monotone" dataKey="score" stroke="#005afd" strokeWidth={2.5} />
               </LineChart>
             </ResponsiveContainer>
           </div>

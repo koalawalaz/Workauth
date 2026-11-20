@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: { 50: '#eef6f3', 100: '#d5ebe2', 500: '#13795b', 600: '#0f6149', 700: '#0b4a38', 900: '#062a20' },
+        // Work Auth blue, sampled from the logo (#005AFD).
+        brand: { 50: '#eef4ff', 100: '#d9e6ff', 200: '#b3ccff', 500: '#005afd', 600: '#004cd6', 700: '#003db0', 800: '#002e85', 900: '#001d57' },
         ink: '#14201c',
       },
       fontFamily: {

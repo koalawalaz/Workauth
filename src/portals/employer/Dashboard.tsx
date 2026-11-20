@@ -11,11 +11,11 @@ function downloadBadge(employer: Employer, score: number, tier: Tier) {
   c.width = 600;
   c.height = 300;
   const g = c.getContext('2d')!;
-  g.fillStyle = '#062a20';
+  g.fillStyle = '#001d57';
   g.beginPath();
   g.roundRect(0, 0, 600, 300, 32);
   g.fill();
-  g.fillStyle = '#13795b';
+  g.fillStyle = '#005afd';
   g.beginPath();
   g.arc(110, 150, 70, 0, Math.PI * 2);
   g.fill();
@@ -25,13 +25,13 @@ function downloadBadge(employer: Employer, score: number, tier: Tier) {
   g.fillText(tier, 110, 168);
   g.textAlign = 'left';
   g.font = '600 22px sans-serif';
-  g.fillStyle = '#a7f3d0';
+  g.fillStyle = '#b3ccff';
   g.fillText('WORK AUTH CERTIFIED', 210, 110);
   g.fillStyle = '#fff';
   g.font = 'bold 30px sans-serif';
   g.fillText(employer.companyName.slice(0, 26), 210, 155);
   g.font = '20px sans-serif';
-  g.fillStyle = '#d1fae5';
+  g.fillStyle = '#d9e6ff';
   g.fillText(`Trust Score ${score} / 100 · CRN ${employer.crn}`, 210, 195);
   const a = document.createElement('a');
   a.href = c.toDataURL('image/png');
@@ -133,7 +133,7 @@ export default function Dashboard({ employer }: { employer: Employer }) {
               <div className="mb-3 flex items-center gap-3 rounded-xl bg-brand-900 p-4 text-white">
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-500 text-lg font-bold" dir="ltr">{s.tier}</span>
                 <div>
-                  <div className="text-xs font-semibold tracking-wider text-emerald-200">WORK AUTH CERTIFIED</div>
+                  <div className="text-xs font-semibold tracking-wider text-brand-200">WORK AUTH CERTIFIED</div>
                   <div className="text-sm font-semibold">{employer.companyName}</div>
                 </div>
               </div>
