@@ -8,26 +8,59 @@ site (GitHub Pages)  ──POST { text } or { file }──▶  Worker  ──▶
                      ◀──────── { analysis } ────────          (key stored as a Worker secret)
 ```
 
-## Deploy (about 10 minutes, once)
+## Deploy from your browser (about 15 minutes, once)
 
-You need a free Cloudflare account and an Anthropic API key (console.anthropic.com).
+No terminal needed: GitHub Actions deploys the Worker for you.
+
+**1. Cloudflare account and Account ID**
+- Sign up free at <https://dash.cloudflare.com/sign-up>.
+- In the left menu open **Workers & Pages** (called **Compute** in some accounts). If it asks you to pick a
+  `workers.dev` subdomain, accept one. The Worker's address will be under it.
+- Copy your **Account ID**. It is shown on the right side of the Workers & Pages overview, or on the
+  account home page under **Account details**.
+
+**2. Cloudflare API token**
+- Click the person icon (top right) → **My Profile** → **API Tokens** → **Create Token**.
+- Next to **Edit Cloudflare Workers**, click **Use template** → **Continue to summary** → **Create Token**.
+- Copy the token. Cloudflare shows it only once.
+
+**3. Anthropic API key**
+- At <https://console.anthropic.com> → **API Keys** → **Create Key**. Copy it.
+- Also set a monthly spend limit (**Settings → Limits**), so the Worker can never run up a large bill.
+
+**4. Add three secrets to GitHub**
+In the Workauth repo: **Settings → Secrets and variables → Actions → Secrets tab → New repository secret**.
+Add each one (name exactly as written, value pasted from the steps above):
+
+| Name | Value |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | the token from step 2 |
+| `CLOUDFLARE_ACCOUNT_ID` | the Account ID from step 1 |
+| `ANTHROPIC_API_KEY` | the key from step 3 |
+
+**5. Deploy**
+- **Actions** tab → **Deploy contract analyzer** (left list) → **Run workflow** → **Run workflow**.
+- When it finishes (about 1 minute), open the run. The summary shows the Worker address,
+  e.g. `https://workauth-analyzer.<your-subdomain>.workers.dev`.
+
+**6. Point the site at it**
+- **Settings → Secrets and variables → Actions → Variables tab → New repository variable**:
+  name `ANALYZER_URL`, value = the Worker address from step 5.
+- **Actions** → **Deploy prototype to GitHub Pages** → open the latest run → **Re-run all jobs**.
+
+The "Check my contract" page now analyses contracts live and shows an **Upload your contract** box
+(PDF or photo, up to 5 MB). To go back to demo results, delete the `ANALYZER_URL` variable and re-run
+the Pages deploy. Later changes to `worker/` redeploy automatically when pushed to `main`.
+
+### Alternative: deploy from a terminal
 
 ```bash
 cd worker
 npm install
-npx wrangler login                          # opens the browser to sign in to Cloudflare
-npx wrangler secret put ANTHROPIC_API_KEY   # paste the key when asked; it is stored encrypted
-npx wrangler deploy                         # prints the Worker URL, e.g. https://workauth-analyzer.<you>.workers.dev
+npx wrangler login
+npx wrangler secret put ANTHROPIC_API_KEY
+npx wrangler deploy        # prints the Worker address; then do step 6
 ```
-
-Then switch the site to live analysis:
-
-1. GitHub → the Workauth repo → **Settings → Secrets and variables → Actions → Variables** →
-   **New repository variable**: name `ANALYZER_URL`, value = the Worker URL from `wrangler deploy`.
-2. Re-run the latest **Deploy prototype to GitHub Pages** workflow (or push to `main`).
-
-The "Check my contract" page then analyses contracts live and shows an **Upload your contract**
-box (PDF or photo, up to 5 MB). To go back to demo results, delete the variable and redeploy.
 
 ## Guardrails
 
