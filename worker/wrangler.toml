@@ -1,0 +1,18 @@
+name = "workauth-analyzer"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# The site that may call this Worker. Add more origins comma-separated (e.g. a local dev URL).
+ALLOWED_ORIGINS = "https://koalawalaz.github.io"
+
+# Per-IP limit: 5 analyses a minute. Also set a monthly spend limit in the Anthropic Console.
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+  [ratelimits.simple]
+  limit = 5
+  period = 60
+
+# The API key is a secret, never committed:  npx wrangler secret put ANTHROPIC_API_KEY

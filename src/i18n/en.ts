@@ -370,6 +370,18 @@ const en = {
     demoNote: 'Prototype: this report was prepared in advance for this sample contract. Live AI analysis will be connected later.',
     error: 'The check could not be completed. Please try again.',
     trySample: 'Contracts you can check',
+    upload: 'Upload your contract',
+    uploadHint: 'PDF or a clear photo of each page, up to 5 MB',
+    uploaded: 'Your uploaded contract',
+    notContract: 'This does not look like an employment contract.',
+    errors: {
+      rate_limited: 'Too many checks at once. Please wait a minute and try again.',
+      too_large: 'This file is too large. Use a PDF or photo under 5 MB.',
+      refused: 'This document could not be checked. Please try a different file.',
+      bad_request: 'This file type is not supported. Use a PDF, JPG, PNG or WebP file.',
+      unsupported: 'Uploading contracts is not available yet.',
+      failed: 'The check could not be completed. Please try again.',
+    },
   },
   mol: {
     nav: { overview: 'Overview', employers: 'Employers', disputes: 'Escalated disputes', inspections: 'Inspections', inspectors: 'Inspectors', weights: 'Scoring weights', audit: 'Audit log' },

@@ -26,6 +26,7 @@ export interface Finding {
 }
 
 export interface Analysis {
+  isContract?: boolean; // false when an uploaded document is not an employment contract
   risk: Risk;
   riskScore: number; // 0–100, higher = riskier for the worker
   summary: L;

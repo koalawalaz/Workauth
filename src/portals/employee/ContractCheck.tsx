@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Notice } from '../../components/ui';
 import { useT } from '../../i18n';
-import { analyzeContract } from '../../api/analyzer';
+import { analyzeContract, analyzeUpload, LIVE_ANALYZER, UPLOAD_TYPES, type AnalyzerError } from '../../api/analyzer';
 import { SAMPLE_CONTRACTS, type Analysis, type L, type Risk, type SampleContract, type Severity } from '../../domain/contracts';
 import type { Employee } from '../../domain/types';
 
@@ -156,12 +156,14 @@ export default function ContractCheck({ e }: { e: Employee }) {
   const l = useL();
   const mine = SAMPLE_CONTRACTS.find((c) => c.employeeId === e.id);
   const samples = SAMPLE_CONTRACTS.filter((c) => c !== mine);
-  const [selected, setSelected] = useState<SampleContract | undefined>(mine);
+  const [selected, setSelected] = useState<SampleContract | File | undefined>(mine);
   const [state, setState] = useState<'idle' | 'running' | 'done' | 'error'>('idle');
   const [result, setResult] = useState<{ analysis: Analysis; live: boolean }>();
+  const [error, setError] = useState<AnalyzerError>('failed');
   const [showText, setShowText] = useState(false);
+  const isFile = selected instanceof File;
 
-  const pick = (c: SampleContract) => {
+  const pick = (c: SampleContract | File) => {
     setSelected(c);
     setState('idle');
     setResult(undefined);
@@ -171,10 +173,12 @@ export default function ContractCheck({ e }: { e: Employee }) {
   const run = async () => {
     if (!selected) return;
     setState('running');
-    try {
-      setResult(await analyzeContract(selected));
+    const r = selected instanceof File ? await analyzeUpload(selected) : await analyzeContract(selected);
+    if (r.ok) {
+      setResult(r);
       setState('done');
-    } catch {
+    } else {
+      setError(r.error);
       setState('error');
     }
   };
@@ -186,27 +190,54 @@ export default function ContractCheck({ e }: { e: Employee }) {
         <p className="mt-2 text-base text-slate-600">{t('analyzer.sub')}</p>
       </div>
 
+      {LIVE_ANALYZER && (
+        <label className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-brand-200 bg-white p-6 text-center hover:border-brand-500">
+          <span className="text-3xl" aria-hidden>📄</span>
+          <span className="text-lg font-semibold text-brand-700">{t('analyzer.upload')}</span>
+          <span className="text-sm text-slate-500">{t('analyzer.uploadHint')}</span>
+          <input
+            type="file"
+            accept={UPLOAD_TYPES.join(',')}
+            className="sr-only"
+            onChange={(ev) => {
+              const f = ev.target.files?.[0];
+              if (f) pick(f);
+              ev.target.value = '';
+            }}
+          />
+        </label>
+      )}
+
       {selected && (
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="text-sm text-slate-500">{selected === mine ? t('analyzer.yourContract') : t('analyzer.sampleContract')}</div>
-          <h2 className="text-xl font-semibold">{l(selected.title)}</h2>
-          <button className="mt-2 text-sm font-semibold text-brand-700 hover:underline" onClick={() => setShowText((s) => !s)} aria-expanded={showText}>
-            {showText ? t('analyzer.hideText') : t('analyzer.showText')}
-          </button>
-          {showText && (
-            <pre dir="ltr" className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-slate-50 p-4 text-start font-sans text-sm leading-6 text-slate-700">
-              {selected.text}
-            </pre>
+          <div className="text-sm text-slate-500">{isFile ? t('analyzer.uploaded') : selected === mine ? t('analyzer.yourContract') : t('analyzer.sampleContract')}</div>
+          <h2 className="break-words text-xl font-semibold">{isFile ? selected.name : l(selected.title)}</h2>
+          {!isFile && (
+            <>
+              <button className="mt-2 text-sm font-semibold text-brand-700 hover:underline" onClick={() => setShowText((s) => !s)} aria-expanded={showText}>
+                {showText ? t('analyzer.hideText') : t('analyzer.showText')}
+              </button>
+              {showText && (
+                <pre dir="ltr" className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-slate-50 p-4 text-start font-sans text-sm leading-6 text-slate-700">
+                  {selected.text}
+                </pre>
+              )}
+            </>
           )}
-          {state === 'idle' && (
+          {(state === 'idle' || state === 'error') && (
             <Button className="mt-4 w-full !min-h-[52px] !text-lg" onClick={run}>✦ {t('analyzer.run')}</Button>
           )}
         </section>
       )}
 
       {state === 'running' && <Progress />}
-      {state === 'error' && <Notice tone="red">{t('analyzer.error')}</Notice>}
-      {state === 'done' && result && <Report a={result.analysis} live={result.live} />}
+      {state === 'error' && <Notice tone="red">{t(`analyzer.errors.${error}`)}</Notice>}
+      {state === 'done' && result && !result.analysis.isContract && result.analysis.isContract !== undefined && (
+        <Notice tone="amber">
+          <b>{t('analyzer.notContract')}</b> {l(result.analysis.summary)}
+        </Notice>
+      )}
+      {state === 'done' && result && result.analysis.isContract !== false && <Report a={result.analysis} live={result.live} />}
 
       <section>
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">{t('analyzer.trySample')}</h2>

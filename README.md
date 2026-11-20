@@ -39,7 +39,7 @@ between portals, moves the demo clock forward, and resets all data.
 | Employer (FR-EMP, §4.1) | Registration wizard with CRN lookup, provisional status, duplicate rejection; 4-step employee form with file type/size checks; archive; bulk CSV with row-level report; certified badge PNG for A/A+ |
 | Trust Score (FR-CSE-01..07) | SSC 40 / Contract 25 / Insurance 15 (binary) / Payment 20; tiers A+ ≥ 98, A ≥ 85, B ≥ 70, Red Zone < 70; recalculated on every change; 12-month history |
 | Employee (FR-EEP, §15) | Record view with rights explainers, dispute on any field, anonymous reporting, status tracker ; "Know your rights" guide (6 topics, law references), also public at `#/rights` |
-| AI Contract Analyzer (§14) | "Check my contract" tab: 4 sample contracts with pre-written bilingual reports (risk score, violations with law articles, your rights, questions to ask). `src/api/analyzer.ts` switches to a live Cloudflare Worker when `VITE_ANALYZER_URL` is set |
+| AI Contract Analyzer (§14) | "Check my contract" tab: 4 sample contracts with pre-written bilingual reports (risk score, violations with law articles, your rights, questions to ask). `src/api/analyzer.ts` switches to live analysis, plus contract upload (PDF/photo), when the Worker in `worker/` is deployed — see `worker/README.md` |
 | Disputes (FR-EEP-03/04) | 5-business-day deadline, accept / reject, auto-escalation to MoL |
 | MoL (FR-MOL, FR-CSE-07) | Analytics, employer list with governorate/sector/size/tier filters, CSV export and print-to-PDF, append-only inspections, escalated-dispute queue, inspector admin, versioned scoring weights, audit log |
 | Red Zone (§12) | Banner, corrective-action checklist and phase timeline (visual only) |
@@ -60,6 +60,7 @@ src/i18n/       en.ts and ar.ts (ar is type-checked against en, so no key can go
 src/components/ shared UI, score panels, dispute card, layout and demo menu
 src/portals/    public/, employer/, employee/, mol/
 scripts/smoke.cjs  Playwright end-to-end walk-through (run against `npm run preview`)
+worker/         Cloudflare Worker for live AI contract analysis (holds the API key)
 ```
 
 To move to a real backend, replace the functions in `src/api/store.ts` with `fetch` calls to the
