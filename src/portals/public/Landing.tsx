@@ -61,6 +61,13 @@ export default function Landing() {
           </div>
           <span className="text-brand-600">→</span>
         </Link>
+        <Link to="/rights" className="mt-3 flex items-center justify-between rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-4 hover:border-brand-500">
+          <div>
+            <div className="font-semibold">⚖️ {t('rightsPage.title')}</div>
+            <div className="text-sm text-slate-600">{t('rightsPage.linkDesc')}</div>
+          </div>
+          <span className="text-brand-600">→</span>
+        </Link>
       </section>
 
       <section className="border-t border-slate-200 bg-white">

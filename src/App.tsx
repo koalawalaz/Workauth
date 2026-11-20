@@ -3,6 +3,8 @@ import { DemoMenu } from './components/Layout';
 import { useSession } from './api/store';
 import Landing from './portals/public/Landing';
 import Directory from './portals/public/Directory';
+import RightsGuide from './components/RightsGuide';
+import { PublicHeader } from './components/Layout';
 import EmployerLogin from './portals/public/EmployerLogin';
 import Register from './portals/public/Register';
 import EmployeeLogin from './portals/public/EmployeeLogin';
@@ -24,6 +26,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/directory" element={<Directory />} />
+        <Route path="/rights" element={<><PublicHeader /><main className="px-4 py-8"><RightsGuide /></main></>} />
         <Route path="/login/employer" element={<EmployerLogin />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login/employee" element={<EmployeeLogin />} />

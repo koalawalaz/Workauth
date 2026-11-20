@@ -2,7 +2,7 @@ import type { Employee, ScoreWeights, Tier } from './types';
 
 // SRS FR-CSE-02 default weights. MoL Admins can change these (FR-CSE-07).
 export const DEFAULT_WEIGHTS: ScoreWeights = { ssc: 40, contract: 25, insurance: 15, payment: 20 };
-export const MIN_WAGE_JOD = 260;
+export const MIN_WAGE_JOD = 290; // Tripartite Committee decision, effective 1 Jan 2025 (SRS v1.1 still says 260)
 export const BANK_TOLERANCE_JOD = 5;
 
 export interface ScoreBreakdown {

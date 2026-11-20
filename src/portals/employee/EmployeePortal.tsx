@@ -4,9 +4,10 @@ import { PortalLayout } from '../../components/Layout';
 import { Button, inputCls, Modal, StatusPill } from '../../components/ui';
 import { useT } from '../../i18n';
 import { fileDispute, useDb, useSession } from '../../api/store';
-import { isInsuranceValid } from '../../domain/scoring';
+import { isInsuranceValid, MIN_WAGE_JOD } from '../../domain/scoring';
 import type { Dispute, DisputeStatus, Employee } from '../../domain/types';
 import ContractCheck from './ContractCheck';
+import RightsGuide from '../../components/RightsGuide';
 
 // Low-literacy design (NFR-USE-02): large type, one action per card, plain language,
 // a rights explainer next to every field (FR-EEP-06).
@@ -18,7 +19,7 @@ function useRows(e: Employee) {
   const db = useDb();
   const rows: { key: FieldKey; label: string; value: string; status?: string }[] = [
     { key: 'jobTitle', label: t('field.jobTitle'), value: e.jobTitle },
-    { key: 'salary', label: t('field.salary'), value: `${num(e.salary)} ${t('app.jod')}`, status: e.salary < 260 ? 'mismatch' : undefined },
+    { key: 'salary', label: t('field.salary'), value: `${num(e.salary)} ${t('app.jod')}`, status: e.salary < MIN_WAGE_JOD ? 'mismatch' : undefined },
     { key: 'contractType', label: t('field.contractType'), value: t(`contract.${e.contractType}`) },
     { key: 'startDate', label: t('field.startDate'), value: date(e.startDate) },
     { key: 'endDate', label: t('field.endDate'), value: e.endDate ? date(e.endDate) : '—' },
@@ -190,12 +191,14 @@ export default function EmployeePortal() {
         { to: '/employee', label: t('employee.yourRecord'), end: true },
         { to: '/employee/contract', label: t('analyzer.nav') },
         { to: '/employee/disputes', label: t('employee.myDisputes'), badge: open },
+        { to: '/employee/rights', label: t('rightsPage.nav') },
       ]}
     >
       <Routes>
         <Route index element={<Record e={e} />} />
         <Route path="contract" element={<ContractCheck e={e} />} />
         <Route path="disputes" element={<MyDisputes e={e} />} />
+        <Route path="rights" element={<RightsGuide />} />
       </Routes>
     </PortalLayout>
   );

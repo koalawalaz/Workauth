@@ -128,7 +128,7 @@ const en = {
     updated: 'Last updated',
   },
   rights: {
-    salary: 'The national minimum wage is 260 JOD per month. Your salary must be paid in full, on time, and should match what reaches your bank account.',
+    salary: 'The national minimum wage is 290 JOD per month. Your salary must be paid in full, on time, and should match what reaches your bank account.',
     sscStatus: 'Your employer must register you with the Social Security Corporation from your first day of work. You can check your status in the SSC app.',
     contractType: 'You have the right to a written contract. A temporary or seasonal contract must state its end date.',
     endDate: 'If your contract ends and you keep working, it may legally become an open-ended contract.',
@@ -234,7 +234,7 @@ const en = {
     alertExpired: '{{count}} expired contract(s)',
     alertExpiring: '{{count}} document(s) expiring within 30 days',
     alertDisputes: '{{count}} open dispute(s) awaiting your response',
-    alertUnderpaid: '{{count}} employee(s) paid below the 260 JOD minimum wage',
+    alertUnderpaid: '{{count}} employee(s) paid below the 290 JOD minimum wage',
     alertUninsured: '{{count}} employee(s) without valid health insurance — you lose all 15 insurance points',
     alertProvisional: 'Your CRN is awaiting manual verification. Limit: 10 employees, no badge.',
     badge: 'Work Auth Certified badge',
@@ -334,6 +334,12 @@ const en = {
     verifiedBySsc: 'Checked with Social Security',
     company: 'Employer',
     steps: { submitted: 'Sent', employer_review: 'Employer reviewing', escalated: 'With Ministry', resolved: 'Resolved' },
+  },
+  rightsPage: {
+    nav: 'Know your rights',
+    title: 'Know your rights',
+    sub: 'Your main rights at work in Jordan, in plain words. Each one shows the law it comes from.',
+    linkDesc: 'Pay, hours, leave, social security and safety, in plain words.',
   },
   analyzer: {
     nav: 'Check my contract',

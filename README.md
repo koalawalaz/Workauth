@@ -38,7 +38,7 @@ between portals, moves the demo clock forward, and resets all data.
 | Auth (FR-AUTH-01..05) | Three portals, CRN + password + OTP for employers, NIN/WPN + OTP for employees, simulated SSO + OTP for MoL, role-guarded routes |
 | Employer (FR-EMP, §4.1) | Registration wizard with CRN lookup, provisional status, duplicate rejection; 4-step employee form with file type/size checks; archive; bulk CSV with row-level report; certified badge PNG for A/A+ |
 | Trust Score (FR-CSE-01..07) | SSC 40 / Contract 25 / Insurance 15 (binary) / Payment 20; tiers A+ ≥ 98, A ≥ 85, B ≥ 70, Red Zone < 70; recalculated on every change; 12-month history |
-| Employee (FR-EEP, §15) | Record view with rights explainers, dispute on any field, anonymous reporting, status tracker |
+| Employee (FR-EEP, §15) | Record view with rights explainers, dispute on any field, anonymous reporting, status tracker ; "Know your rights" guide (6 topics, law references), also public at `#/rights` |
 | AI Contract Analyzer (§14) | "Check my contract" tab: 4 sample contracts with pre-written bilingual reports (risk score, violations with law articles, your rights, questions to ask). `src/api/analyzer.ts` switches to a live Cloudflare Worker when `VITE_ANALYZER_URL` is set |
 | Disputes (FR-EEP-03/04) | 5-business-day deadline, accept / reject, auto-escalation to MoL |
 | MoL (FR-MOL, FR-CSE-07) | Analytics, employer list with governorate/sector/size/tier filters, CSV export and print-to-PDF, append-only inspections, escalated-dispute queue, inspector admin, versioned scoring weights, audit log |

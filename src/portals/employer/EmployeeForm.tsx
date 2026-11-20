@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MIN_WAGE_JOD } from '../../domain/scoring';
 import { Button, Field, inputCls, Notice, Stepper } from '../../components/ui';
 import { useT } from '../../i18n';
 import type { EmployeeInput } from '../../api/store';
@@ -106,7 +107,7 @@ export default function EmployeeForm({ initial, onSave, onCancel, error }: { ini
                 </select>
               )}
             </Field>
-            <Field label={t('field.salary')} required hint={`${t('app.jod')} · min 260`}>
+            <Field label={t('field.salary')} required hint={`${t("app.jod")} · min ${MIN_WAGE_JOD}`}>
               {(id) => <input id={id} type="number" min={0} className={inputCls} value={v.salary || ''} onChange={(e) => set('salary', Number(e.target.value))} dir="ltr" />}
             </Field>
             <Field label={t('field.startDate')} required>{(id) => <input id={id} type="date" className={inputCls} value={v.startDate} onChange={(e) => set('startDate', e.target.value)} />}</Field>

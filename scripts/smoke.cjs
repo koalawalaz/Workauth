@@ -32,6 +32,13 @@ fs.mkdirSync(SHOTS, { recursive: true });
   await page.getByText('Dead Sea Hospitality Group').waitFor();
   await shot('02-directory'); step('directory');
 
+  await page.goto(BASE + '#/rights');
+  await page.getByText('One month of notice').waitFor();
+  await page.getByRole('button', { name: /Leave/ }).click();
+  await page.getByText('Annual leave').waitFor();
+  if (await page.getByText('One month of notice').count()) throw new Error('rights filter did not filter');
+  step('rights guide + filter');
+
   // Employer registration (provisional path)
   await page.goto(BASE + '#/register');
   await page.getByLabel('Commercial Registration No. (CRN)').fill('300125');
@@ -189,6 +196,10 @@ fs.mkdirSync(SHOTS, { recursive: true });
   await p2.waitForTimeout(500);
   if (await p2.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)) errors.push('horizontal overflow on phone analyzer');
   await p2.screenshot({ path: `${SHOTS}/13-analyzer-phone-ar.png`, fullPage: true });
+  await p2.goto(BASE + '?r=phone3#/employee/rights');
+  await p2.getByText('اعرف حقوقك').first().waitFor();
+  if (await p2.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1)) errors.push('horizontal overflow on phone rights');
+  await p2.screenshot({ path: `${SHOTS}/14-rights-phone-ar.png`, fullPage: true });
   step('phone width');
 
   await browser.close();
